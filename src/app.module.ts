@@ -9,16 +9,16 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    EventModule,
-    SponsorModule,
+    ConfigModule.forRoot(),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('process.env.DATABASE'),
-        useNewUrlParser: true,
+        uri: configService.get<string>('DATABASE'),
       }),
       inject: [ConfigService],
     }),
+    EventModule,
+    SponsorModule,
     AttendeeModule,
     UserModule,
   ],
