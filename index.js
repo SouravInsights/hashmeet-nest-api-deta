@@ -1,8 +1,3 @@
-import HttpAdapterHost from '@nestjs/core';
+const main = require('./dist/main');
 
-const adapterHost = app.get(HttpAdapterHost);
-const httpAdapter = adapterHost.httpAdapter;
-
-const app = httpAdapter.getInstance();
-
-module.exports = app;
+module.exports = main;
