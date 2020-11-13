@@ -1,9 +1,18 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppMiddleware } from './app.middleware';
+import * as express from 'express';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors();
-  await app.listen(process.env.PORT);
-}
-bootstrap();
+const app = express();
+
+app.use((req, res, next) => {
+  const nest = new AppMiddleware(app).use(req, res, next);
+  nest
+    .then(() => {
+      next();
+    })
+    .catch((err) => {
+      console.log(JSON.stringify(err));
+      next();
+    });
+});
+
+module.exports = app;
